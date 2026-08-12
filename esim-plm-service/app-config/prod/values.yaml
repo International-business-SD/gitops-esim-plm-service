@@ -22,16 +22,16 @@ pdb:
   minAvailable: 1
 
 image:
-  repository: esim-plm-service-service
+  repository: esim-plm-service
   tag: v1.0.0
 
-name: esim-plm-service-service
+name: esim-plm-service
 configMapName: esim-plm-service-config
 
 config: {}
 
 service:
-  name: esim-plm-service-service-service
+  name: esim-plm-service-service
   port: 8081
   targetPort: 8081
 
