@@ -53,7 +53,7 @@ config:
   # Pyroscope
   PYROSCOPE_LABELS: "env=dev,region=eu-central-1,cluster=eks-resim-eu-dev-001,namespace=ns-resim-dev"
 service:
-  name: esim-plm-service-service-service
+  name: esim-plm-service-service
   port: 8893
   targetPort: 8893
 metricsPort: 9090
