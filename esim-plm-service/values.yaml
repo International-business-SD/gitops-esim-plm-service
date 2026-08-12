@@ -37,7 +37,7 @@ global:
     enabled: true
 
 # Service-specific defaults (overridden by app-config)
-name: esim-plm-service-service
+name: esim-plm-service
 enabled: true
 replicas: 1
 terminationGracePeriodSeconds: 60
