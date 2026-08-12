@@ -16,6 +16,9 @@ hpa:
   enabled: false
 pdb:
   enabled: false
+probes:
+  startup:
+    failureThreshold: 24    # 4 minute grace period for otel+pyroscope+JPA init
 image:
   repository: esim-plm-service-dev
   tag: dev-a9b1a4f1-feat-plm-05-api-321
@@ -51,8 +54,8 @@ config:
   PYROSCOPE_LABELS: "env=dev,region=eu-central-1,cluster=eks-resim-eu-dev-001,namespace=ns-resim-dev"
 service:
   name: esim-plm-service-service-service
-  port: 8895
-  targetPort: 8895
+  port: 8893
+  targetPort: 8893
 metricsPort: 9090
 resources:
   requests:
@@ -63,3 +66,33 @@ resources:
     cpu: "250m"
 probes:
   enabled: true
+  startup:
+    httpGet:
+      path: /actuator/health/liveness
+      port: 8893
+      scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 24
+    successThreshold: 1
+  readiness:
+    httpGet:
+      path: /actuator/health/readiness
+      port: 8893
+      scheme: HTTP
+    initialDelaySeconds: 5
+    periodSeconds: 20
+    timeoutSeconds: 3
+    failureThreshold: 3
+    successThreshold: 1
+  liveness:
+    httpGet:
+      path: /actuator/health/liveness
+      port: 8893
+      scheme: HTTP
+    initialDelaySeconds: 15
+    periodSeconds: 30
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
