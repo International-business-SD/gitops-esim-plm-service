@@ -22,7 +22,7 @@ image:
   repository: esim-plm-service-service-uat
   tag: latest
 
-name: esim-plm-service-service
+name: esim-plm-service
 configMapName: notification-app-config
 
 config: {}
