@@ -18,10 +18,37 @@ pdb:
   enabled: false
 image:
   repository: esim-plm-service-dev
-  tag: dev-4444b243-feat-plm-05-api-315
+  tag: dev-a9b1a4f1-feat-plm-05-api-321
 name: esim-plm-service-service
 configMapName: esim-plm-service-config
-config: {}
+config:
+  # Database — dedicated RDS instance (not the shared esim-shop-be cluster)
+  PGSQL_PORT: "5432"
+  PGSQL_WRITER_HOST: plm-pricelists-db.crius6cgw774.eu-central-1.rds.amazonaws.com
+  PGSQL_READER_HOST: plm-pricelists-db.crius6cgw774.eu-central-1.rds.amazonaws.com
+  PGSQL_USER: useradmin
+  PGSQL_DB: plm_pricelists
+  # Spring Boot
+  SPRING_PROFILES_ACTIVE: customized
+  # AWS Cognito — shared ADMIN pool (same as esim-shop-be / esim-pnl)
+  COGNITO_REGION: ap-northeast-1
+  COGNITO_ADMIN_USER_POOL: ap-northeast-1_sPoVuVL4g
+  # AWS S3 — PLM pricelist storage bucket
+  PLM_S3_BUCKET: plm-pricelists-dev-009160046075
+  AWS_REGION: eu-central-1
+  # PLM app config
+  PLM_ALLOW_SAME_DAY_UPLOAD: "false"
+  PLM_AI_ENABLED: "false"
+  # ANTHROPIC_API_KEY: — only needed if PLM_AI_ENABLED is set to "true"
+
+  # JVM / observability
+  JAVA_TOOL_OPTIONS: "-javaagent:./opentelemetry-javaagent.jar -javaagent:./pyroscope.jar -Dotel.exporter.otlp.endpoint=http://grafana-alloy.observability.svc.cluster.local:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=none -Dotel.logs.exporter=none -Dotel.service.name=esim-plm-dev -Dpyroscope.application.name=esim-plm-dev-eu-central-1 -Dpyroscope.server.address=https://obf-pyroscope.internal.myesimprofile.com"
+  # Sentry
+  SENTRY_RELEASE: ""
+  SENTRY_DSN: ""
+  SENTRY_ENVIRONMENT: dev-eu
+  # Pyroscope
+  PYROSCOPE_LABELS: "env=dev,region=eu-central-1,cluster=eks-resim-eu-dev-001,namespace=ns-resim-dev"
 service:
   name: esim-plm-service-service-service
   port: 8895
