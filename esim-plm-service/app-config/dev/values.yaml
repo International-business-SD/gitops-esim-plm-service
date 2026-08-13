@@ -21,7 +21,7 @@ probes:
     failureThreshold: 24 # 4 minute grace period for otel+pyroscope+JPA init
 image:
   repository: esim-plm-service-dev
-  tag: dev-b313209a-feat-plm-05-api-342
+  tag: dev-c96a52f7-feat-plm-05-api-343
 name: esim-plm-service
 configMapName: esim-plm-service-config
 config:
@@ -40,6 +40,7 @@ config:
   REDIRECT_URI: https://dev-plm-service.myesimprofile.com/v1/plm/login/oauth2/code/cognito
   # AWS S3 — PLM pricelist storage bucket
   PLM_S3_BUCKET: plm-pricelists-dev-009160046075
+  PLM_S3_REGION: ap-northeast-1
   AWS_REGION: eu-central-1
   # PLM app config
   PLM_ALLOW_SAME_DAY_UPLOAD: "false"
