@@ -21,7 +21,7 @@ probes:
     failureThreshold: 24 # 4 minute grace period for otel+pyroscope+JPA init
 image:
   repository: esim-plm-service-dev
-  tag: dev-fb06e666-feat-plm-05-api-345
+  tag: dev-e322c630-feat-plm-05-api-346
 name: esim-plm-service
 configMapName: esim-plm-service-config
 config:
@@ -44,7 +44,7 @@ config:
   AWS_REGION: eu-central-1
   # PLM app config
   PLM_ALLOW_SAME_DAY_UPLOAD: "false"
-  PLM_AI_ENABLED: "false"
+  PLM_AI_ENABLED: "true"
   PLM_AI_BEDROCK_REGION: eu-central-1
   PLM_AI_MODEL_ID: anthropic.claude-3-haiku-20240307-v1:0
   PLM_AI_MAX_TOKENS: "1024"
