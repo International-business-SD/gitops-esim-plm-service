@@ -16,9 +16,6 @@ hpa:
   enabled: false
 pdb:
   enabled: false
-probes:
-  startup:
-    failureThreshold: 24 # 4 minute grace period for otel+pyroscope+JPA init
 image:
   repository: esim-plm-service-dev
   tag: dev-e322c630-feat-plm-05-api-346
@@ -80,7 +77,7 @@ probes:
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 5
-    failureThreshold: 24
+    failureThreshold: 40 # ~410s grace period, actual startup observed at ~262s (otel+pyroscope+JPA init)
     successThreshold: 1
   readiness:
     httpGet:
