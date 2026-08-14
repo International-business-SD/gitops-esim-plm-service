@@ -18,7 +18,7 @@ pdb:
   enabled: false
 image:
   repository: esim-plm-service-dev
-  tag: dev-58d3d01f-feat-plm-05-api-353
+  tag: dev-e382ba25-feat-plm-05-api-354
 name: esim-plm-service
 configMapName: esim-plm-service-config
 config:
