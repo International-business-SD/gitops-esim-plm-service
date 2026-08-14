@@ -21,7 +21,7 @@ probes:
     failureThreshold: 24 # 4 minute grace period for otel+pyroscope+JPA init
 image:
   repository: esim-plm-service-dev
-  tag: dev-36ad84ff-feat-plm-05-api-344
+  tag: dev-fb06e666-feat-plm-05-api-345
 name: esim-plm-service
 configMapName: esim-plm-service-config
 config:
