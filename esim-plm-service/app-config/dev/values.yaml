@@ -18,7 +18,7 @@ pdb:
   enabled: false
 image:
   repository: esim-plm-service-dev
-  tag: dev-e382ba25-feat-plm-05-api-354
+  tag: dev-5ac30244-feat-plm-05-api-355
 name: esim-plm-service
 configMapName: esim-plm-service-config
 config:
@@ -41,6 +41,7 @@ config:
   AWS_REGION: eu-central-1
   # PLM app config
   PLM_ALLOW_SAME_DAY_UPLOAD: "false"
+  PLM_EMAIL_SENDER: "noreply@myesimprofile.com"
   PLM_AI_ENABLED: "true"
   PLM_AI_BEDROCK_REGION: eu-central-1
   PLM_AI_MODEL_ID: eu.anthropic.claude-haiku-4-5-20251001-v1:0
@@ -48,7 +49,11 @@ config:
   # CORS — admin portal origins allowed to call this API directly (same list as esim-identity-access-service dev)
   PLM_CORS_ALLOWED_ORIGINS: "http://localhost:4200,https://dev-admin-v2.myesimprofile.com,https://dev-admin-prepaid-sim.rmb-lab.jp,https://dev-admin.myesimprofile.com"
   # JVM / observability
-  JAVA_TOOL_OPTIONS: "-javaagent:./opentelemetry-javaagent.jar -javaagent:./pyroscope.jar -Dotel.exporter.otlp.endpoint=http://grafana-alloy.observability.svc.cluster.local:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=none -Dotel.logs.exporter=none -Dotel.service.name=esim-plm-dev -Dpyroscope.application.name=esim-plm-dev-eu-central-1 -Dpyroscope.server.address=https://obf-pyroscope.internal.myesimprofile.com"
+  JAVA_TOOL_OPTIONS: "-javaagent:./opentelemetry-javaagent.jar -javaagent:./pyroscope.jar
+    -Dotel.exporter.otlp.endpoint=http://grafana-alloy.observability.svc.cluster.local:4317
+    -Dotel.exporter.otlp.protocol=grpc -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=none
+    -Dotel.logs.exporter=none -Dotel.service.name=esim-plm-dev -Dpyroscope.application.name=esim-plm-dev-eu-central-1
+    -Dpyroscope.server.address=https://obf-pyroscope.internal.myesimprofile.com"
   # Sentry
   SENTRY_RELEASE: ""
   SENTRY_DSN: ""
