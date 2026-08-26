@@ -17,7 +17,7 @@ hpa:
 pdb:
   enabled: false
 image:
-  repository: esim-plm-service-service-uat
+  repository: esim-plm-service-uat
   tag: stg-0.0.0-ee98f3f4-363
 name: esim-plm-service
 configMapName: notification-app-config
