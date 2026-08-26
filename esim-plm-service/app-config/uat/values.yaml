@@ -11,29 +11,59 @@ global:
     enabled: true
   tolerations:
     enabled: false
-
 replicas: 1
 hpa:
   enabled: false
 pdb:
   enabled: false
-
 image:
   repository: esim-plm-service-service-uat
-  tag: latest
-
+  tag: stg-0.0.0-ee98f3f4-363
 name: esim-plm-service
 configMapName: notification-app-config
-
-config: {}
-
+config:
+  # Database — dedicated RDS instance (not the shared esim-shop-be cluster)
+  # TODO: confirm actual UAT RDS hostname with DevOps — PLM has its own dedicated instance,
+  # not the shared resim-aurora-uat cluster other services use.
+  PGSQL_PORT: "5432"
+  PGSQL_WRITER_HOST: plm-pricelists-db-uat.crius6cgw774.eu-central-1.rds.amazonaws.com
+  PGSQL_READER_HOST: plm-pricelists-db-uat.crius6cgw774.eu-central-1.rds.amazonaws.com
+  PGSQL_USER: useradmin
+  PGSQL_DB: plm_pricelists
+  # Spring Boot
+  SPRING_PROFILES_ACTIVE: customized
+  # AWS Cognito — shared ADMIN pool (same as esim-shop-be / esim-identity-access-service UAT)
+  COGNITO_REGION: ap-northeast-1
+  COGNITO_ADMIN_USER_POOL: ap-northeast-1_kznbwJIs2
+  COGNITO_ADMIN_USER_POOL_CLIENT_ID: ee66v3o6csrokrqchh3p1ebl9
+  REDIRECT_URI: http://esim-plm-service-service:8893/v1/plm/login/oauth2/code/cognito
+  # AWS S3 — PLM pricelist storage bucket
+  # TODO: confirm actual UAT bucket name with DevOps.
+  PLM_S3_BUCKET: plm-pricelists-stg-009160046075
+  PLM_S3_REGION: ap-northeast-1
+  AWS_REGION: eu-central-1
+  # PLM app config
+  PLM_ALLOW_SAME_DAY_UPLOAD: "false"
+  PLM_EMAIL_SENDER: "noreply@myesimprofile.com"
+  PLM_AI_ENABLED: "true"
+  PLM_AI_BEDROCK_REGION: eu-central-1
+  PLM_AI_MODEL_ID: eu.anthropic.claude-haiku-4-5-20251001-v1:0
+  PLM_AI_MAX_TOKENS: "1024"
+  # CORS — admin portal origins allowed to call this API directly (same pattern as dev)
+  PLM_CORS_ALLOWED_ORIGINS: "https://uat-admin-v2.myesimprofile.com,https://stg-admin-prepaid-sim.rmb-lab.jp"
+  # JVM / observability
+  JAVA_TOOL_OPTIONS: "-javaagent:./opentelemetry-javaagent.jar -javaagent:./pyroscope.jar -Dotel.exporter.otlp.endpoint=http://grafana-alloy.observability.svc.cluster.local:4317 -Dotel.exporter.otlp.protocol=grpc -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=none -Dotel.logs.exporter=none -Dotel.service.name=esim-plm-uat -Dpyroscope.application.name=esim-plm-uat-eu-central-1 -Dpyroscope.server.address=https://obf-pyroscope.internal.myesimprofile.com"
+  # Sentry
+  SENTRY_RELEASE: ""
+  SENTRY_DSN: ""
+  SENTRY_ENVIRONMENT: uat-eu
+  # Pyroscope
+  PYROSCOPE_LABELS: "env=uat,region=eu-central-1,cluster=eks-resim-eu-uat-002,namespace=ns-resim-uat"
 service:
   name: esim-plm-service-service
   port: 8081
   targetPort: 8081
-
 metricsPort: 9090
-
 resources:
   requests:
     memory: "256Mi"
@@ -41,6 +71,5 @@ resources:
   limits:
     memory: "512Mi"
     cpu: "250m"
-
 probes:
   enabled: true
