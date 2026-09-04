@@ -18,7 +18,7 @@ pdb:
   enabled: false
 image:
   repository: esim-plm-service-dev
-  tag: dev-ff4402e0-maintenance-vuln-fixes-consolidated-2026-08-372
+  tag: dev-44fb0f55-bugfix-refactor-plm-385
 name: esim-plm-service
 configMapName: esim-plm-service-config
 config:
@@ -40,9 +40,12 @@ config:
   PLM_S3_REGION: ap-northeast-1
   AWS_REGION: eu-central-1
   # PLM app config
-  PLM_ALLOW_SAME_DAY_UPLOAD: "false"
+  # Same-day uploads: controlled by the DB-backed `testing_flag` system_setting, not a
+  # ConfigMap value — editable via the Settings UI/API at runtime, no redeploy needed.
   PLM_EMAIL_SENDER: "noreply@myesimprofile.com"
-  PLM_AI_ENABLED: "true"
+  # AI region-mapping: controlled by the DB-backed `ai_bedrock_enabled` system_setting
+  # (defaults to true here via V6 migration to preserve current dev behavior) — editable
+  # via the Settings UI/API at runtime, no redeploy needed.
   PLM_AI_BEDROCK_REGION: eu-central-1
   PLM_AI_MODEL_ID: eu.anthropic.claude-haiku-4-5-20251001-v1:0
   PLM_AI_MAX_TOKENS: "1024"
