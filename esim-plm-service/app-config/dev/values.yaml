@@ -18,7 +18,7 @@ pdb:
   enabled: false
 image:
   repository: esim-plm-service-dev
-  tag: dev-44fb0f55-bugfix-refactor-plm-385
+  tag: dev-44fb0f55-bugfix-refactor-plm-388
 name: esim-plm-service
 configMapName: esim-plm-service-config
 config:
