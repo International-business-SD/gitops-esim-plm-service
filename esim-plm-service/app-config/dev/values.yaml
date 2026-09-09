@@ -18,7 +18,7 @@ pdb:
   enabled: false
 image:
   repository: esim-plm-service-dev
-  tag: dev-83685f2c-bugfix-refactor-plm-390
+  tag: dev-f9047bdc-maintenance-jlink-java-compiler-module-fix-400
 name: esim-plm-service
 configMapName: esim-plm-service-config
 config:
